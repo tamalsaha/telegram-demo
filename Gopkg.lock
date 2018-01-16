@@ -3,13 +3,13 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/kimrgrey/go-telegram"
+  name = "github.com/golang/glog"
   packages = ["."]
-  revision = "955a999278a20ed2ef0cb5a521a8680e15afe2f4"
+  revision = "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a02b272347d04e9a3f0e90db6965ab21f7d987dbbd7a8d705b761a3bd03d1a3c"
+  inputs-digest = "454135964cda5a10cad248157b586667c7a743e1417af192221b5cecbd0bae20"
   solver-name = "gps-cdcl"
   solver-version = 1

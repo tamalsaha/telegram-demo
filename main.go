@@ -1,20 +1,43 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/kimrgrey/go-telegram"
-	"os"
+	"net/http"
 	"net/url"
+	"os"
+
+	"github.com/golang/glog"
+	"github.com/tamalsaha/go-oneliners"
 )
 
-var client = telegram.NewClient(os.Getenv("BOT_KEY"))
+type ErrorResponse struct {
+	Ok          bool   `json:"ok"`
+	ErrorCode   int    `json:"error_code"`
+	Description string `json:"description"`
+}
 
 func main() {
-	me := client.GetMe()
-	fmt.Println(me.UserName)
+	token := os.Getenv("BOT_KEY")
+	channel := "@mytest123489"
 
-	params := url.Values{}
-	params.Set("chat_id", "@mytest")
-	params.Set("text", "Test")
-	client.Call("sendMessage", params, nil)
+	u := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", token)
+
+	oneliners.FILE(u)
+
+	data := url.Values{}
+	data.Set("chat_id", channel)
+	data.Set("text", "this is from GO")
+	resp, err := http.PostForm(u, data)
+	if err != nil {
+		glog.Fatalln(err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		var r ErrorResponse
+		err := json.NewDecoder(resp.Body).Decode(&r)
+		if err == nil && !r.Ok {
+			glog.Warningf("failed to send message to channel %s. Reason: %d - %s", channel, r.ErrorCode, r.Description)
+		}
+	}
+	resp.Body.Close()
 }
