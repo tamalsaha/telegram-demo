@@ -19,7 +19,7 @@ type ErrorResponse struct {
 
 func main() {
 	token := os.Getenv("BOT_KEY")
-	channel := "@mytest123489"
+	channel := "@hoannv_alert"
 
 	u := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", token)
 
